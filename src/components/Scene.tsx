@@ -1,12 +1,12 @@
 import { OrbitControls } from '@react-three/drei'
 
-import { RotatingCube } from './RotatingCube'
+import { FrequencyBars } from './FrequencyBars'
 
 export function Scene() {
     return (
         <>
             <ambientLight intensity={2} />
-            <RotatingCube />
+            <FrequencyBars />
             <OrbitControls />
         </>
     )
