@@ -3,20 +3,30 @@ import { useFrame } from '@react-three/fiber'
 import type { Mesh } from 'three'
 
 import { Bar } from './Bar'
+import { useAudio } from '../context/AudioContext'
 
 export function FrequencyBars() {
     const count = 16
     const barsRef = useRef<(Mesh | null)[]>([])
+    const { analyser, dataArray } = useAudio()
 
-    useFrame(({ clock }) => {
-        const time = clock.getElapsedTime()
+    useFrame(() => {
+        const analyserNode = analyser.current
+        const frequencies = dataArray.current
+
+        if (!analyserNode || !frequencies) {
+            return
+        }
+
+        analyserNode.getByteFrequencyData(frequencies)
 
         barsRef.current.forEach((bar, idx) => {
             if (!bar) {
                 return
             }
-            const x = (idx - count / 2 + 0.5) * 0.4
-            const height = (Math.sin(time + x) + 1.2) * 0.8
+            const value = frequencies[idx]
+            // const height = Math.max(value / 40, 0.05)
+            const height = value / 160
 
             bar.scale.y = height
             bar.position.y = height / 2
