@@ -6,6 +6,7 @@ import { Bar } from './Bar'
 import { useAudio } from '../context/AudioContext'
 import { BAR_HEIGHT_SCALE, BAR_POSITIONS, BAR_SMOOTHING } from '../config/audio'
 import { getAverageFrequency } from '../utils/getAverageFrequency'
+import { getLogFrequencyRange } from '../utils/getLogFrequencyRange'
 
 function updateBar(bar: Mesh, value: number) {
     const height = value / BAR_HEIGHT_SCALE
@@ -28,13 +29,14 @@ export function FrequencyBars() {
 
         analyserNode.getByteFrequencyData(frequencies)
 
-        const groupSize = Math.floor(frequencies.length / BAR_POSITIONS.length)
-
         barsRef.current.forEach((bar, idx) => {
             if (!bar) return
 
-            const startIndex = idx * groupSize
-            const endIndex = startIndex + groupSize
+            const { startIndex, endIndex } = getLogFrequencyRange(
+                idx,
+                BAR_POSITIONS.length,
+                frequencies.length
+            )
 
             const value = getAverageFrequency(frequencies, startIndex, endIndex)
 
