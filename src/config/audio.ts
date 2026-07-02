@@ -7,27 +7,27 @@ export const BAR_RISE_SPEED = 0.35
 export const BAR_FALL_SPEED = 0.08
 
 export const BAR_POSITIONS = Array.from(
-    { length: BAR_COUNT },
-    (_, idx) => (idx - BAR_COUNT / 2 + 0.5) * BAR_SPACING
+  { length: BAR_COUNT },
+  (_, idx) => (idx - BAR_COUNT / 2 + 0.5) * BAR_SPACING,
 )
 
 export type Track = {
-    id: string
-    title: string
-    src: string
+  id: string
+  title: string
+  src: string
 }
 
 export const DEFAULT_TRACKS: Track[] = [
-    {
-        id: 'no-copyright-music-1',
-        title: 'No Copyright Music - SigmaMusicArt',
-        src: '/no-copyright-music-1.mp3',
-    },
-    {
-        id: 'no-copyright-music-2',
-        title: 'No Copyright Music - Loksii',
-        src: '/no-copyright-music-2.mp3',
-    },
+  {
+    id: 'no-copyright-music-1',
+    title: 'No Copyright Music - SigmaMusicArt',
+    src: '/no-copyright-music-1.mp3',
+  },
+  {
+    id: 'no-copyright-music-2',
+    title: 'No Copyright Music - Loksii',
+    src: '/no-copyright-music-2.mp3',
+  },
 ]
 
 export const DEFAULT_TRACK = DEFAULT_TRACKS[0]
