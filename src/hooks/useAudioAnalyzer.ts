@@ -65,6 +65,23 @@ export function useAudioAnalyzer() {
         }
     }, [])
 
+    const uploadTrack = useCallback((file: File) => {
+        const uploadedTrack: Track = {
+            id: crypto.randomUUID(),
+            title: file.name,
+            src: URL.createObjectURL(file),
+        }
+
+        setCurrentTrack(uploadedTrack)
+
+        if (audioRef.current) {
+            audioRef.current.pause()
+            audioRef.current.src = uploadedTrack.src
+            audioRef.current.load()
+            setIsPlaying(false)
+        }
+    }, [])
+
     return {
         analyser: analyserRef,
         dataArray: dataArrayRef,
@@ -73,5 +90,6 @@ export function useAudioAnalyzer() {
         startAudio,
         pauseAudio,
         selectTrack,
+        uploadTrack,
     }
 }

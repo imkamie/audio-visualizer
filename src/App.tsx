@@ -5,8 +5,14 @@ import { useAudio } from './context/AudioContext'
 import { DEFAULT_TRACKS } from './config/audio'
 
 export default function App() {
-    const { isPlaying, currentTrack, startAudio, pauseAudio, selectTrack } =
-        useAudio()
+    const {
+        isPlaying,
+        currentTrack,
+        startAudio,
+        pauseAudio,
+        selectTrack,
+        uploadTrack,
+    } = useAudio()
 
     return (
         <>
@@ -37,6 +43,18 @@ export default function App() {
                         </option>
                     ))}
                 </select>
+
+                <input
+                    type="file"
+                    accept="audio/mpeg,audio/mp3"
+                    onChange={(event) => {
+                        const file = event.target.files?.[0]
+
+                        if (!file) return
+
+                        uploadTrack(file)
+                    }}
+                />
             </div>
 
             <Canvas
