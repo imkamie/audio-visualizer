@@ -4,14 +4,20 @@ import type { Mesh } from 'three'
 
 import { Bar } from './Bar'
 import { useAudio } from '../context/AudioContext'
-import { BAR_HEIGHT_SCALE, BAR_POSITIONS, BAR_SMOOTHING } from '../config/audio'
+import {
+    BAR_FALL_SPEED,
+    BAR_HEIGHT_SCALE,
+    BAR_POSITIONS,
+    BAR_RISE_SPEED,
+} from '../config/audio'
 import { getAverageFrequency } from '../utils/getAverageFrequency'
 import { getLogFrequencyRange } from '../utils/getLogFrequencyRange'
 
 function updateBar(bar: Mesh, value: number) {
-    const height = value / BAR_HEIGHT_SCALE
+    const targetHeight = value / BAR_HEIGHT_SCALE
+    const speed = targetHeight > bar.scale.y ? BAR_RISE_SPEED : BAR_FALL_SPEED
 
-    bar.scale.y += (height - bar.scale.y) * BAR_SMOOTHING
+    bar.scale.y += (targetHeight - bar.scale.y) * speed
     bar.position.y = bar.scale.y / 2
 }
 

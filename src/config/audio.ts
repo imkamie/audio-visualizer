@@ -3,7 +3,8 @@ export const FFT_SIZE = 256
 export const BAR_COUNT = 16
 export const BAR_SPACING = 0.4
 export const BAR_HEIGHT_SCALE = 120
-export const BAR_SMOOTHING = 0.2
+export const BAR_RISE_SPEED = 0.35
+export const BAR_FALL_SPEED = 0.08
 
 export const BAR_POSITIONS = Array.from(
     { length: BAR_COUNT },
