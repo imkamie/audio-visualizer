@@ -3,15 +3,13 @@ export function getAverageFrequency(
   startIndex: number,
   endIndex: number,
 ) {
-  if (startIndex >= endIndex) {
-    return 0
-  }
-
   let sum = 0
+  let count = 0
 
-  for (let i = startIndex; i < endIndex; i++) {
+  for (let i = startIndex; i < endIndex && i < frequencies.length; i++) {
     sum += frequencies[i]
+    count++
   }
 
-  return sum / (endIndex - startIndex)
+  return count === 0 ? 0 : sum / count
 }
