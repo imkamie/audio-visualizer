@@ -74,7 +74,7 @@ export function FrequencyBars() {
         <group key={idx}>
           <Bar
             x={x}
-            height={1}
+            height={MIN_BAR_HEIGHT}
             color="#ff4fd8"
             emissiveIntensity={0.7}
             ref={(mesh) => {
@@ -84,6 +84,7 @@ export function FrequencyBars() {
 
           <Bar
             x={x}
+            y={MIN_BAR_HEIGHT + PEAK_OFFSET}
             height={0.035}
             color="#ffffff"
             emissiveIntensity={1.5}

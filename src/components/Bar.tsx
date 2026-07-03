@@ -8,6 +8,7 @@ type BarProps = {
   height: number
   color: string
   emissiveIntensity?: number
+  y?: number
   ref: Ref<Mesh>
 }
 
@@ -16,11 +17,12 @@ export function Bar({
   height,
   color,
   emissiveIntensity = 0.7,
+  y,
   ref,
 }: BarProps) {
   return (
-    <mesh ref={ref} position={[x, 0, 0]}>
-      <boxGeometry args={[BAR_WIDTH, height, BAR_WIDTH]} />
+    <mesh ref={ref} position={[x, y ?? height / 2, 0]} scale={[1, height, 1]}>
+      <boxGeometry args={[BAR_WIDTH, 1, BAR_WIDTH]} />
       <meshStandardMaterial
         color={color}
         emissive={color}
