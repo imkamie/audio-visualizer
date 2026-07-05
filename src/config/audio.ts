@@ -1,9 +1,9 @@
 export const FFT_SIZE = 256
 
 export const BAR_COUNT = 48
-export const BAR_WIDTH = 0.12
+export const BAR_WIDTH = 0.105
 export const MIN_BAR_HEIGHT = 0.08
-export const BAR_GAP = 0.045
+export const BAR_GAP = 0.06
 export const BAR_SPACING = BAR_WIDTH + BAR_GAP
 
 export const BAR_HEIGHT_SCALE = 120

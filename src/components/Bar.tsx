@@ -27,6 +27,8 @@ export function Bar({
         color={color}
         emissive={color}
         emissiveIntensity={emissiveIntensity}
+        roughness={0.35}
+        metalness={0.15}
       />
     </mesh>
   )
