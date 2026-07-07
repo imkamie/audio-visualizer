@@ -28,16 +28,17 @@ export type Track = {
   src: string
 }
 
+const getPublicAssetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
 export const DEFAULT_TRACKS: Track[] = [
   {
     id: 'no-copyright-music-1',
     title: 'No Copyright Music - SigmaMusicArt',
-    src: '/no-copyright-music-1.mp3',
+    src: getPublicAssetUrl('no-copyright-music-1.mp3'),
   },
   {
     id: 'no-copyright-music-2',
     title: 'No Copyright Music - Loksii',
-    src: '/no-copyright-music-2.mp3',
+    src: getPublicAssetUrl('no-copyright-music-2.mp3'),
   },
 ]
 
