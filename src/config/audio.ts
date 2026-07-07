@@ -1,23 +1,26 @@
 export const FFT_SIZE = 256
 
-export const BAR_COUNT = 48
-export const BAR_WIDTH = 0.105
 export const MIN_BAR_HEIGHT = 0.08
-export const BAR_GAP = 0.06
-export const BAR_SPACING = BAR_WIDTH + BAR_GAP
 
 export const BAR_HEIGHT_SCALE = 120
 export const BAR_RISE_SPEED = 0.35
 export const BAR_FALL_SPEED = 0.08
 
-export const BAR_POSITIONS = Array.from({ length: BAR_COUNT }, (_, idx) => {
-  const totalWidth = BAR_COUNT * BAR_SPACING
-
-  return idx * BAR_SPACING - totalWidth / 2 + BAR_SPACING / 2
-})
-
 export const PEAK_FALL_SPEED = 0.025
 export const PEAK_OFFSET = 0.08
+
+export function getBarPositions(
+  count: number,
+  barWidth: number,
+  barGap: number,
+) {
+  const spacing = barWidth + barGap
+  const totalWidth = count * spacing
+
+  return Array.from({ length: count }, (_, idx) => {
+    return idx * spacing - totalWidth / 2 + spacing / 2
+  })
+}
 
 export type Track = {
   id: string

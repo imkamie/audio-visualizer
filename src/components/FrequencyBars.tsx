@@ -1,12 +1,12 @@
 import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import type { Mesh } from 'three'
 
 import {
   BAR_FALL_SPEED,
   BAR_HEIGHT_SCALE,
-  BAR_POSITIONS,
   BAR_RISE_SPEED,
+  getBarPositions,
   MIN_BAR_HEIGHT,
   PEAK_FALL_SPEED,
   PEAK_OFFSET,
@@ -15,6 +15,12 @@ import { useAudio } from '../context/useAudio'
 import { getAverageFrequency } from '../utils/getAverageFrequency'
 import { getFrequencyRange } from '../utils/getFrequencyRange'
 import { Bar } from './Bar'
+
+type FrequencyBarsProps = {
+  barCount: number
+  barWidth: number
+  barGap: number
+}
 
 function updateBar(bar: Mesh, value: number) {
   const targetHeight = MIN_BAR_HEIGHT + value / BAR_HEIGHT_SCALE
@@ -31,11 +37,19 @@ function updatePeak(peak: Mesh, barHeight: number) {
   peak.position.y = Math.max(targetY, nextY)
 }
 
-export function FrequencyBars() {
+export function FrequencyBars({
+  barCount,
+  barWidth,
+  barGap,
+}: FrequencyBarsProps) {
   const barsRef = useRef<(Mesh | null)[]>([])
   const peaksRef = useRef<(Mesh | null)[]>([])
 
   const { analyser, dataArray } = useAudio()
+
+  const barPositions = useMemo(() => {
+    return getBarPositions(barCount, barWidth, barGap)
+  }, [barCount, barWidth, barGap])
 
   useFrame(() => {
     const analyserNode = analyser.current
@@ -52,7 +66,7 @@ export function FrequencyBars() {
 
       const { startIndex, endIndex } = getFrequencyRange(
         idx,
-        BAR_POSITIONS.length,
+        barPositions.length,
         frequencies.length,
       )
 
@@ -70,10 +84,11 @@ export function FrequencyBars() {
 
   return (
     <group position={[0, -1, 0]}>
-      {BAR_POSITIONS.map((x, idx) => (
+      {barPositions.map((x, idx) => (
         <group key={idx}>
           <Bar
             x={x}
+            width={barWidth}
             height={MIN_BAR_HEIGHT}
             color="#ff4fd8"
             emissiveIntensity={0.7}
@@ -85,8 +100,9 @@ export function FrequencyBars() {
           <Bar
             x={x}
             y={MIN_BAR_HEIGHT + PEAK_OFFSET}
+            width={barWidth}
             height={0.035}
-            color="#ffffff"
+            color="#ffdff7"
             emissiveIntensity={1.5}
             ref={(mesh) => {
               peaksRef.current[idx] = mesh

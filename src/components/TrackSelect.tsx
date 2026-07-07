@@ -1,5 +1,5 @@
 import { ChevronDown } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import type { Track } from '../config/audio'
 
@@ -15,12 +15,38 @@ export function TrackSelect({
   onSelect,
 }: TrackSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const selectRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    function handlePointerDown(event: PointerEvent) {
+      if (!selectRef.current?.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
 
   return (
-    <div className="track-select">
+    <div className="track-select" ref={selectRef}>
       <button
         className="control track-select-button"
         type="button"
+        aria-expanded={isOpen}
         onClick={() => setIsOpen((value) => !value)}
       >
         <span>{currentTrack.title}</span>

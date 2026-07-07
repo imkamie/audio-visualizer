@@ -4,6 +4,7 @@ import { Scene } from './components/Scene'
 import { TrackSelect } from './components/TrackSelect'
 import { DEFAULT_TRACKS } from './config/audio'
 import { useAudio } from './context/useAudio'
+import { useVisualizerLayout } from './hooks/useVisualizerLayout'
 
 export default function App() {
   const {
@@ -15,8 +16,10 @@ export default function App() {
     uploadTrack,
   } = useAudio()
 
+  const layout = useVisualizerLayout()
+
   return (
-    <>
+    <div className="app-shell">
       <div className="controls">
         <button
           className="control control-button"
@@ -49,11 +52,18 @@ export default function App() {
       </div>
 
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 60 }}
-        style={{ width: '100vw', height: '100vh', background: '#000' }}
+        camera={{
+          position: [0, layout.cameraY, layout.cameraZ],
+          fov: 60,
+        }}
+        style={{
+          width: '100%',
+          height: layout.canvasHeight,
+          background: '#000',
+        }}
       >
-        <Scene />
+        <Scene layout={layout} />
       </Canvas>
-    </>
+    </div>
   )
 }
